@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="https://raw.githubusercontent.com/Buraizuuu/qa-testcase-generator/master/public/favicon.svg" width="72" height="72" alt="QA Assist logo" />
+<img src="https://raw.githubusercontent.com/Buraizuuu/qa-testcase-generator/02597bd/public/favicon.svg" width="72" height="72" alt="QA Assist logo" />
 
 # QA Assist
 
