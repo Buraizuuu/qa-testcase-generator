@@ -23,6 +23,11 @@ Turns user stories and acceptance criteria into production quality test cases th
 
 <div align="center">
 
+### Generated Test Cases
+<img src="public/screenshots/00-overview.png" alt="QA Assist generated test case overview with requirement summary, risks, and coverage stats" width="100%" />
+
+<img src="public/screenshots/00b-testcases.png" alt="QA Assist test case table with categories, priorities, and severities" width="100%" />
+
 ### Main Interface
 <img src="public/screenshots/01-main.png" alt="QA Assist main interface" width="100%" />
 
