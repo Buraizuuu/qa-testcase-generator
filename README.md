@@ -38,7 +38,24 @@ Boundary Value Analysis · Equivalence Partitioning · Decision Table Testing ·
 
 ## Screenshots
 
-> Coming soon
+<div align="center">
+
+### Main Interface
+<img src="public/screenshots/01-main.png" alt="QA Assist main interface" width="100%" />
+
+### Input Panel with Requirements
+<img src="public/screenshots/02-input-filled.png" alt="Input panel with user story and acceptance criteria" width="100%" />
+
+### AI Provider Settings
+<img src="public/screenshots/03-settings.png" alt="AI Provider Settings modal" width="100%" />
+
+### About
+<img src="public/screenshots/04-about.png" alt="About modal showing features and creator" width="100%" />
+
+### Docs & Setup Guide
+<img src="public/screenshots/05-docs.png" alt="Docs and setup guide modal" width="100%" />
+
+</div>
 
 ---
 
