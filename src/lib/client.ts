@@ -261,20 +261,36 @@ export async function generateTestCases(
   const text = raw.trim()
 
   // 1. Direct parse (ideal path)
-  try { return JSON.parse(text) as GenerationResult } catch { /* fall through */ }
+  try { return normalizeResult(JSON.parse(text)) } catch { /* fall through */ }
 
   // 2. Strip markdown code fences
   const fenceMatch = text.match(/```(?:json)?\s*([\s\S]*?)\s*```/)
   if (fenceMatch) {
-    try { return JSON.parse(fenceMatch[1]) as GenerationResult } catch { /* fall through */ }
+    try { return normalizeResult(JSON.parse(fenceMatch[1])) } catch { /* fall through */ }
   }
 
   // 3. Extract outermost {...} — handles preamble/postamble text from small models
   const start = text.indexOf('{')
   const end = text.lastIndexOf('}')
   if (start !== -1 && end > start) {
-    try { return JSON.parse(text.slice(start, end + 1)) as GenerationResult } catch { /* fall through */ }
+    try { return normalizeResult(JSON.parse(text.slice(start, end + 1))) } catch { /* fall through */ }
   }
 
   throw new Error('Failed to parse response as JSON. The model returned unexpected output. Try a larger/smarter model.')
+}
+
+// Smaller/local models often omit fields — default them so the UI never crashes on `undefined.length`.
+function normalizeResult(data: Partial<GenerationResult>): GenerationResult {
+  return {
+    requirementSummary: data.requirementSummary ?? '',
+    businessRules: data.businessRules ?? [],
+    assumptions: data.assumptions ?? [],
+    missingRequirements: data.missingRequirements ?? [],
+    riskAssessment: data.riskAssessment ?? [],
+    testScenarios: data.testScenarios ?? [],
+    testCases: data.testCases ?? [],
+    coverageMatrix: data.coverageMatrix ?? [],
+    regressionImpact: data.regressionImpact ?? [],
+    automationRecommendations: data.automationRecommendations ?? [],
+  }
 }
