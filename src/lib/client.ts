@@ -279,18 +279,47 @@ export async function generateTestCases(
   throw new Error('Failed to parse response as JSON. The model returned unexpected output. Try a larger/smarter model.')
 }
 
-// Smaller/local models often omit fields — default them so the UI never crashes on `undefined.length`.
+// Smaller/local models often omit fields — default them so the UI never crashes on `undefined.length`/`.map`.
 function normalizeResult(data: Partial<GenerationResult>): GenerationResult {
   return {
     requirementSummary: data.requirementSummary ?? '',
     businessRules: data.businessRules ?? [],
     assumptions: data.assumptions ?? [],
     missingRequirements: data.missingRequirements ?? [],
-    riskAssessment: data.riskAssessment ?? [],
-    testScenarios: data.testScenarios ?? [],
-    testCases: data.testCases ?? [],
-    coverageMatrix: data.coverageMatrix ?? [],
+    riskAssessment: (data.riskAssessment ?? []).map((r) => ({
+      area: r?.area ?? '',
+      level: r?.level ?? 'Low',
+      description: r?.description ?? '',
+    })),
+    testScenarios: (data.testScenarios ?? []).map((s) => ({
+      id: s?.id ?? '',
+      scenario: s?.scenario ?? '',
+      category: s?.category ?? '',
+    })),
+    testCases: (data.testCases ?? []).map((t) => ({
+      id: t?.id ?? '',
+      title: t?.title ?? '',
+      objective: t?.objective ?? '',
+      feature: t?.feature ?? '',
+      requirementRef: t?.requirementRef ?? '',
+      category: t?.category ?? 'Functional',
+      priority: t?.priority ?? 'Medium',
+      severity: t?.severity ?? 'Minor',
+      preconditions: t?.preconditions ?? '',
+      testData: t?.testData ?? '',
+      steps: t?.steps ?? [],
+      expectedResult: t?.expectedResult ?? '',
+      automationCandidate: t?.automationCandidate ?? false,
+      notes: t?.notes ?? '',
+    })),
+    coverageMatrix: (data.coverageMatrix ?? []).map((c) => ({
+      criterion: c?.criterion ?? '',
+      testCaseIds: c?.testCaseIds ?? [],
+    })),
     regressionImpact: data.regressionImpact ?? [],
-    automationRecommendations: data.automationRecommendations ?? [],
+    automationRecommendations: (data.automationRecommendations ?? []).map((a) => ({
+      testCaseId: a?.testCaseId ?? '',
+      justification: a?.justification ?? '',
+    })),
   }
 }
