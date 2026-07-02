@@ -3,6 +3,7 @@ import {
   PROVIDER_PRESETS,
   loadProviderConfig,
   saveProviderConfig,
+  fetchOllamaModels,
   type ProviderConfig,
   type ProviderPresetId,
 } from '../lib/client'
@@ -16,6 +17,8 @@ export default function SettingsModal({ open, onClose }: Props) {
   const [config, setConfig] = useState<ProviderConfig>(loadProviderConfig)
   const [showKey, setShowKey] = useState(false)
   const [saved, setSaved] = useState(false)
+  const [ollamaModels, setOllamaModels] = useState<string[]>([])
+  const [ollamaError, setOllamaError] = useState<string | null>(null)
 
   useEffect(() => {
     if (open) {
@@ -23,6 +26,17 @@ export default function SettingsModal({ open, onClose }: Props) {
       setSaved(false)
     }
   }, [open])
+
+  useEffect(() => {
+    if (!open || config.provider !== 'ollama') return
+    setOllamaError(null)
+    fetchOllamaModels()
+      .then(setOllamaModels)
+      .catch(() => {
+        setOllamaModels([])
+        setOllamaError('Could not reach Ollama — start it with: ollama serve')
+      })
+  }, [open, config.provider])
 
   useEffect(() => {
     if (!open) return
@@ -143,14 +157,33 @@ export default function SettingsModal({ open, onClose }: Props) {
             <label htmlFor="model" className="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1.5">
               Model
             </label>
-            <input
-              id="model"
-              type="text"
-              value={config.model}
-              onChange={(e) => update({ model: e.target.value })}
-              placeholder={preset?.modelPlaceholder ?? 'model-name'}
-              className="w-full bg-slate-800 border border-slate-600 rounded-lg px-3 py-2.5 text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent font-mono"
-            />
+            {config.provider === 'ollama' && ollamaModels.length > 0 ? (
+              <select
+                id="model"
+                value={config.model}
+                onChange={(e) => update({ model: e.target.value })}
+                className="w-full bg-slate-800 border border-slate-600 rounded-lg px-3 py-2.5 text-sm text-slate-100 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent font-mono"
+              >
+                {!ollamaModels.includes(config.model) && (
+                  <option value={config.model}>{config.model}</option>
+                )}
+                {ollamaModels.map((name) => (
+                  <option key={name} value={name}>{name}</option>
+                ))}
+              </select>
+            ) : (
+              <input
+                id="model"
+                type="text"
+                value={config.model}
+                onChange={(e) => update({ model: e.target.value })}
+                placeholder={preset?.modelPlaceholder ?? 'model-name'}
+                className="w-full bg-slate-800 border border-slate-600 rounded-lg px-3 py-2.5 text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent font-mono"
+              />
+            )}
+            {config.provider === 'ollama' && ollamaError && (
+              <p className="mt-1.5 text-xs text-amber-500">{ollamaError}</p>
+            )}
           </div>
 
           {/* API Key */}

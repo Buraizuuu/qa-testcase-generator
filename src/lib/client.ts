@@ -94,6 +94,15 @@ export function saveProviderConfig(config: ProviderConfig) {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(config))
 }
 
+// ── Ollama models ─────────────────────────────────────────────────────────────
+
+export async function fetchOllamaModels(): Promise<string[]> {
+  const res = await fetch('http://localhost:11434/api/tags')
+  if (!res.ok) throw new Error(`Ollama returned ${res.status}`)
+  const json = await res.json() as { models?: { name: string }[] }
+  return (json.models ?? []).map((m) => m.name)
+}
+
 // ── Connection check ─────────────────────────────────────────────────────────
 
 export type ConnectionStatus = 'checking' | 'online' | 'offline' | 'unconfigured'
