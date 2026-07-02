@@ -29,8 +29,16 @@ const SCOPE_LABELS: Record<keyof GenerateOptions['scope'], string> = {
   boundary: 'Boundary',
 }
 
+const TIP_DISMISSED_KEY = 'qa_assist_input_tip_dismissed'
+
 export default function InputPanel({ opts, onChange, onGenerate, onClear, isGenerating }: Props) {
   const [confirmClearOpen, setConfirmClearOpen] = useState(false)
+  const [tipDismissed, setTipDismissed] = useState(() => localStorage.getItem(TIP_DISMISSED_KEY) === '1')
+
+  function dismissTip() {
+    localStorage.setItem(TIP_DISMISSED_KEY, '1')
+    setTipDismissed(true)
+  }
 
   function update<K extends keyof GenerateOptions>(key: K, value: GenerateOptions[K]) {
     onChange({ ...opts, [key]: value })
@@ -65,15 +73,27 @@ export default function InputPanel({ opts, onChange, onGenerate, onClear, isGene
           <label htmlFor="requirements" className="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">
             Requirements / User Story / Acceptance Criteria <span className="text-red-400" aria-label="required">*</span>
           </label>
-          <div className="flex gap-2 px-3 py-2.5 mb-2 bg-blue-950/40 border border-blue-900/60 rounded-lg">
-            <svg className="w-4 h-4 text-blue-400 shrink-0 mt-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z" />
-            </svg>
-            <p className="text-xs text-blue-300 leading-relaxed">
-              Output quality tracks input quality. A one-line prompt gets generic coverage. List concrete
-              acceptance criteria, field names, and business rules to get test cases you'd actually trust.
-            </p>
-          </div>
+          {!tipDismissed && (
+            <div className="flex gap-2 px-3 py-2.5 mb-2 bg-blue-950/40 border border-blue-900/60 rounded-lg">
+              <svg className="w-4 h-4 text-blue-400 shrink-0 mt-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z" />
+              </svg>
+              <p className="text-xs text-blue-300 leading-relaxed flex-1">
+                Output quality tracks input quality. A one-line prompt gets generic coverage. List concrete
+                acceptance criteria, field names, and business rules to get test cases you'd actually trust.
+              </p>
+              <button
+                type="button"
+                onClick={dismissTip}
+                className="shrink-0 p-1 -m-1 text-blue-400/70 hover:text-blue-300 transition-colors"
+                aria-label="Dismiss tip"
+              >
+                <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+          )}
           <textarea
             id="requirements"
             value={opts.requirements}
@@ -88,7 +108,7 @@ export default function InputPanel({ opts, onChange, onGenerate, onClear, isGene
         </div>
 
         {/* App type */}
-        <div>
+        <div className="pt-4 border-t border-slate-800/70">
           <label htmlFor="app-type" className="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">
             Application Type
           </label>
@@ -134,11 +154,14 @@ export default function InputPanel({ opts, onChange, onGenerate, onClear, isGene
                 </label>
               ))}
             </div>
+            <p className="mt-2 text-xs text-slate-600">
+              Blank/required-field checks are always included. Enable more categories for deeper coverage.
+            </p>
           </fieldset>
         </div>
 
         {/* Additional context */}
-        <div>
+        <div className="pt-4 border-t border-slate-800/70">
           <label htmlFor="context" className="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">
             Additional Context <span className="text-slate-600 normal-case font-normal">(optional)</span>
           </label>
