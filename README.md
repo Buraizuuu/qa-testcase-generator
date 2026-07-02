@@ -234,3 +234,9 @@ Issues and PRs welcome. For major changes, open an issue first to discuss.
 ## License
 
 MIT © [Bryle Briones](https://bryle-briones.vercel.app/)
+
+---
+
+## Support
+
+If QA Assist saved you time, consider buying me a coffee: [paypal.me/brylesutv](https://paypal.me/brylesutv)
