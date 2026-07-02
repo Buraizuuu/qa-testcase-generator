@@ -65,6 +65,15 @@ export default function InputPanel({ opts, onChange, onGenerate, onClear, isGene
           <label htmlFor="requirements" className="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">
             Requirements / User Story / Acceptance Criteria <span className="text-red-400" aria-label="required">*</span>
           </label>
+          <div className="flex gap-2 px-3 py-2.5 mb-2 bg-blue-950/40 border border-blue-900/60 rounded-lg">
+            <svg className="w-4 h-4 text-blue-400 shrink-0 mt-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z" />
+            </svg>
+            <p className="text-xs text-blue-300 leading-relaxed">
+              Output quality tracks input quality. A one-line prompt gets generic coverage — list concrete
+              acceptance criteria, field names, and business rules to get test cases you'd actually trust.
+            </p>
+          </div>
           <textarea
             id="requirements"
             value={opts.requirements}
