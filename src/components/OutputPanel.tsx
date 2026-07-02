@@ -10,6 +10,11 @@ interface Props {
   error: string | null
   featureName: string
   onCancel: () => void
+  durationMs: number | null
+}
+
+function formatDuration(ms: number): string {
+  return ms < 1000 ? `${Math.round(ms)}ms` : `${(ms / 1000).toFixed(1)}s`
 }
 
 type Tab = 'overview' | 'scenarios' | 'testcases' | 'coverage'
@@ -20,7 +25,7 @@ const RISK_COLORS = {
   Low: 'text-green-400 bg-green-900/30 border-green-800',
 }
 
-export default function OutputPanel({ result, streamText, isGenerating, error, featureName, onCancel }: Props) {
+export default function OutputPanel({ result, streamText, isGenerating, error, featureName, onCancel, durationMs }: Props) {
   const [tab, setTab] = useState<Tab>('overview')
 
   if (error) {
@@ -117,7 +122,12 @@ export default function OutputPanel({ result, streamText, isGenerating, error, f
             </button>
           ))}
         </div>
-        <ExportMenu result={result} featureName={featureName} />
+        <div className="flex items-center gap-3">
+          {durationMs !== null && (
+            <span className="text-xs text-slate-500">Generated in {formatDuration(durationMs)}</span>
+          )}
+          <ExportMenu result={result} featureName={featureName} />
+        </div>
       </div>
 
       {/* Tab content */}

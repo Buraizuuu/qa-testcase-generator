@@ -26,6 +26,7 @@ export default function App() {
   const [streamText, setStreamText] = useState('')
   const [isGenerating, setIsGenerating] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [durationMs, setDurationMs] = useState<number | null>(null)
   const abortRef = useRef<AbortController | null>(null)
 
   const handleGenerate = useCallback(async () => {
@@ -40,10 +41,13 @@ export default function App() {
     setError(null)
     setResult(null)
     setStreamText('')
+    setDurationMs(null)
+    const startedAt = performance.now()
 
     try {
       const data = await generateTestCases(opts, setStreamText, abortRef.current.signal)
       setResult(data)
+      setDurationMs(performance.now() - startedAt)
     } catch (err) {
       if ((err as Error).name === 'AbortError') {
         setStreamText('')
@@ -68,6 +72,7 @@ export default function App() {
     setStreamText('')
     setIsGenerating(false)
     setError(null)
+    setDurationMs(null)
   }
 
   return (
@@ -106,6 +111,7 @@ export default function App() {
             error={error}
             featureName={opts.featureName}
             onCancel={handleCancel}
+            durationMs={durationMs}
           />
         </main>
       </div>
@@ -120,6 +126,7 @@ export default function App() {
             error={error}
             featureName={opts.featureName}
             onCancel={handleCancel}
+            durationMs={durationMs}
           />
         )}
       </div>
