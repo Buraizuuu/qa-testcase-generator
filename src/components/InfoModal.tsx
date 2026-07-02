@@ -172,6 +172,25 @@ function AboutTab() {
             <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
           </svg>
         </a>
+        <a
+          href="https://paypal.me/brylesutv"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex items-center gap-3 p-3 mt-2 bg-slate-800/40 rounded-lg border border-slate-800 hover:border-slate-600 hover:bg-slate-800/70 transition-colors group"
+        >
+          <div className="w-10 h-10 rounded-full bg-slate-700 flex items-center justify-center shrink-0" aria-hidden="true">
+            <svg className="w-5 h-5 text-amber-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v12m-3-2.818l.879.659a3 3 0 003.6 0l.879-.659A2.25 2.25 0 0013.5 12h-3a2.25 2.25 0 01-.879-4.318l.879-.659a3 3 0 013.6 0l.879.659" />
+            </svg>
+          </div>
+          <div className="flex-1 min-w-0">
+            <p className="text-sm font-semibold text-slate-200 group-hover:text-white transition-colors">Support this project</p>
+            <p className="text-xs text-slate-500 group-hover:text-slate-400 transition-colors truncate">paypal.me/brylesutv</p>
+          </div>
+          <svg className="w-4 h-4 text-slate-600 group-hover:text-slate-400 transition-colors shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
+          </svg>
+        </a>
       </div>
 
       {/* Tech stack */}
