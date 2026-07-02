@@ -4,9 +4,9 @@
 
 # QA Assist
 
-**AI-powered Test Case Generator**
+**Local AI Test Case Generator**
 
-Turns user stories and acceptance criteria into production quality test cases the way a Senior QA Engineer would write them. Paste in a requirement and it drafts positive, negative, and edge case scenarios, organizes them by priority, and lays out expected results so a tester can start executing immediately instead of writing coverage from scratch.
+QA Assist is a local tool that turns user stories and acceptance criteria into production quality test cases the way a Senior QA Engineer would write them. Paste in a requirement and it drafts positive, negative, and edge case scenarios, organizes them by priority, and lays out expected results so a tester can start executing immediately instead of writing coverage from scratch.
 
 [![React](https://img.shields.io/badge/React-18-61DAFB?style=flat-square&logo=react&logoColor=white)](https://react.dev)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?style=flat-square&logo=typescript&logoColor=white)](https://www.typescriptlang.org)

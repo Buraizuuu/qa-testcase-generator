@@ -119,18 +119,19 @@ function AboutTab() {
       <div className="flex items-start gap-4">
         <div className="w-14 h-14 rounded-2xl bg-blue-600 flex items-center justify-center shrink-0">
           <svg className="w-7 h-7 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
-            <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            <path strokeLinecap="round" strokeLinejoin="round" d="M9 6.75h6M9 12h6M9 17.25h3.5" />
+            <path strokeLinecap="round" strokeLinejoin="round" d="M5.25 3.75h13.5A1.5 1.5 0 0120.25 5.25v13.5a1.5 1.5 0 01-1.5 1.5H5.25a1.5 1.5 0 01-1.5-1.5V5.25a1.5 1.5 0 011.5-1.5z" />
           </svg>
         </div>
         <div>
           <h2 id="info-title" className="text-xl font-bold text-slate-100">QA Assist</h2>
-          <p className="text-sm text-slate-400 mt-0.5">AI-powered Test Case Generator</p>
+          <p className="text-sm text-slate-400 mt-0.5">Local AI Test Case Generator</p>
           <span className="inline-block mt-2 text-xs px-2 py-0.5 bg-blue-900/50 text-blue-300 rounded border border-blue-800">v1.0.0</span>
         </div>
       </div>
 
       <p className="text-sm text-slate-300 leading-relaxed">
-        QA Assist is a personal productivity tool that uses AI to generate production-quality software test cases
+        QA Assist is a local, personal productivity tool that uses AI to generate production-quality software test cases
         from user stories, acceptance criteria, or plain requirements. It thinks and reasons like a Senior QA
         Engineer — performing risk analysis, identifying gaps, and covering functional, negative, boundary,
         security, accessibility, integration, and performance scenarios.
