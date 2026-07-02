@@ -82,7 +82,9 @@ The JSON must conform exactly to this schema:
   ]
 }
 
-Prioritize quality over quantity. Avoid duplicate coverage. Infer realistic edge cases from requirements without inventing business logic.`
+Prioritize quality over quantity. Avoid duplicate coverage. Infer realistic edge cases from requirements without inventing business logic.
+
+IMPORTANT: Your entire response must be a single valid JSON object starting with { and ending with }. Do not include any text before or after the JSON. Do not use markdown formatting. Output raw JSON only.`
 
 export function buildUserPrompt(opts: {
   featureName: string

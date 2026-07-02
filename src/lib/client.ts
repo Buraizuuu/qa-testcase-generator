@@ -182,6 +182,7 @@ export async function generateTestCases(
     model: config.model,
     stream: true,
     max_tokens: 8000,
+    response_format: { type: 'json_object' },
     messages: [
       { role: 'system', content: SYSTEM_PROMPT },
       {
@@ -247,16 +248,24 @@ export async function generateTestCases(
     }
   }
 
-  // Parse JSON response
+  // Parse JSON response — try progressively looser extractions before failing
   const text = raw.trim()
-  try {
-    return JSON.parse(text) as GenerationResult
-  } catch {
-    // Fallback: model may have wrapped in code fences despite instructions
-    const match = text.match(/```(?:json)?\s*([\s\S]*?)\s*```/)
-    if (match) {
-      try { return JSON.parse(match[1]) as GenerationResult } catch { /* fall through */ }
-    }
-    throw new Error('Failed to parse response as JSON. The model returned unexpected output. Try a larger/smarter model.')
+
+  // 1. Direct parse (ideal path)
+  try { return JSON.parse(text) as GenerationResult } catch { /* fall through */ }
+
+  // 2. Strip markdown code fences
+  const fenceMatch = text.match(/```(?:json)?\s*([\s\S]*?)\s*```/)
+  if (fenceMatch) {
+    try { return JSON.parse(fenceMatch[1]) as GenerationResult } catch { /* fall through */ }
   }
+
+  // 3. Extract outermost {...} — handles preamble/postamble text from small models
+  const start = text.indexOf('{')
+  const end = text.lastIndexOf('}')
+  if (start !== -1 && end > start) {
+    try { return JSON.parse(text.slice(start, end + 1)) as GenerationResult } catch { /* fall through */ }
+  }
+
+  throw new Error('Failed to parse response as JSON. The model returned unexpected output. Try a larger/smarter model.')
 }
