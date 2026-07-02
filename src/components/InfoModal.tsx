@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 interface Props {
   open: boolean
@@ -10,6 +10,16 @@ type Tab = 'about' | 'docs'
 
 export default function InfoModal({ open, onClose, defaultTab = 'about' }: Props) {
   const [tab, setTab] = useState<Tab>(defaultTab)
+
+  useEffect(() => {
+    if (!open) return
+    function onKey(e: KeyboardEvent) { if (e.key === 'Escape') onClose() }
+    document.addEventListener('keydown', onKey)
+    return () => document.removeEventListener('keydown', onKey)
+  }, [open, onClose])
+
+  // Sync tab when defaultTab changes (e.g. opening from menu)
+  useEffect(() => { if (open) setTab(defaultTab) }, [open, defaultTab])
 
   if (!open) return null
 
@@ -63,6 +73,45 @@ export default function InfoModal({ open, onClose, defaultTab = 'about' }: Props
 
 // ── About ─────────────────────────────────────────────────────────────────────
 
+const FEATURES = [
+  {
+    title: 'Senior QA reasoning',
+    desc: 'Applies BVA, EP, decision tables, risk-based testing',
+    icon: (
+      <svg className="w-4 h-4 text-blue-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" aria-hidden="true">
+        <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 3v1.5M4.5 8.25H3m18 0h-1.5M4.5 12H3m18 0h-1.5m-15 3.75H3m18 0h-1.5M8.25 19.5V21M12 3v1.5m0 15V21m3.75-18v1.5m0 15V21m-9-1.5h10.5a2.25 2.25 0 002.25-2.25V6.75a2.25 2.25 0 00-2.25-2.25H6.75A2.25 2.25 0 004.5 6.75v10.5a2.25 2.25 0 002.25 2.25zm.75-12h9v9h-9v-9z" />
+      </svg>
+    ),
+  },
+  {
+    title: '10+ test categories',
+    desc: 'Functional, negative, boundary, security, accessibility & more',
+    icon: (
+      <svg className="w-4 h-4 text-green-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" aria-hidden="true">
+        <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" />
+      </svg>
+    ),
+  },
+  {
+    title: '6 export formats',
+    desc: 'Excel, Azure DevOps, Jira/Xray, TestRail, Markdown, CSV',
+    icon: (
+      <svg className="w-4 h-4 text-purple-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" aria-hidden="true">
+        <path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3" />
+      </svg>
+    ),
+  },
+  {
+    title: 'Provider agnostic',
+    desc: 'Works with Ollama, Gemini, OpenRouter, OpenAI, Azure',
+    icon: (
+      <svg className="w-4 h-4 text-amber-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" aria-hidden="true">
+        <path strokeLinecap="round" strokeLinejoin="round" d="M13.19 8.688a4.5 4.5 0 011.242 7.244l-4.5 4.5a4.5 4.5 0 01-6.364-6.364l1.757-1.757m13.35-.622l1.757-1.757a4.5 4.5 0 00-6.364-6.364l-4.5 4.5a4.5 4.5 0 001.242 7.244" />
+      </svg>
+    ),
+  },
+]
+
 function AboutTab() {
   return (
     <div className="space-y-6">
@@ -89,14 +138,11 @@ function AboutTab() {
 
       {/* Feature highlights */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-        {[
-          { icon: '🧠', title: 'Senior QA reasoning', desc: 'Applies BVA, EP, decision tables, risk-based testing' },
-          { icon: '📋', title: '10+ test categories', desc: 'Functional, negative, boundary, security, accessibility & more' },
-          { icon: '📤', title: '6 export formats', desc: 'Excel, Azure DevOps, Jira/Xray, TestRail, Markdown, CSV' },
-          { icon: '🔌', title: 'Provider agnostic', desc: 'Works with Ollama, Gemini, OpenRouter, OpenAI, Azure' },
-        ].map((f) => (
+        {FEATURES.map((f) => (
           <div key={f.title} className="flex gap-3 p-3 bg-slate-800/50 rounded-lg border border-slate-800">
-            <span className="text-xl" aria-hidden="true">{f.icon}</span>
+            <div className="w-8 h-8 rounded-lg bg-slate-700 flex items-center justify-center shrink-0" aria-hidden="true">
+              {f.icon}
+            </div>
             <div>
               <p className="text-sm font-medium text-slate-200">{f.title}</p>
               <p className="text-xs text-slate-500 mt-0.5">{f.desc}</p>
@@ -108,15 +154,23 @@ function AboutTab() {
       {/* Creator */}
       <div className="border-t border-slate-800 pt-5">
         <p className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-3">Creator</p>
-        <div className="flex items-center gap-3">
+        <a
+          href="https://bryle-briones.vercel.app/"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex items-center gap-3 p-3 bg-slate-800/40 rounded-lg border border-slate-800 hover:border-slate-600 hover:bg-slate-800/70 transition-colors group"
+        >
           <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-white font-bold text-sm shrink-0">
             BB
           </div>
-          <div>
-            <p className="text-sm font-semibold text-slate-200">Bryle Briones</p>
-            <p className="text-xs text-slate-500">QA Engineer · UCG</p>
+          <div className="flex-1 min-w-0">
+            <p className="text-sm font-semibold text-slate-200 group-hover:text-white transition-colors">Bryle Briones</p>
+            <p className="text-xs text-slate-500 group-hover:text-slate-400 transition-colors truncate">bryle-briones.vercel.app</p>
           </div>
-        </div>
+          <svg className="w-4 h-4 text-slate-600 group-hover:text-slate-400 transition-colors shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
+          </svg>
+        </a>
       </div>
 
       {/* Tech stack */}

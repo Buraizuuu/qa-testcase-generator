@@ -117,6 +117,13 @@ export async function checkConnection(signal?: AbortSignal): Promise<{ status: C
       return { status: 'online', detail: `Connected · ${models.length} model${models.length !== 1 ? 's' : ''} available` }
     }
 
+    // Remote providers require an API key — flag missing key before even hitting the network
+    const preset = PROVIDER_PRESETS.find((p) => p.id === config.provider)
+    const keyRequired = !preset?.apiKeyOptional
+    if (keyRequired && !config.apiKey.trim()) {
+      return { status: 'offline', detail: 'API key not set — open Settings to add your key' }
+    }
+
     // For all other OpenAI-compatible providers, call GET /models
     const isAzure = config.provider === 'azure'
     const url = `${config.baseUrl.replace(/\/$/, '')}/models`
@@ -128,7 +135,7 @@ export async function checkConnection(signal?: AbortSignal): Promise<{ status: C
           : {}),
     }
     const res = await fetch(url, { method: 'GET', headers, signal })
-    if (res.status === 401) return { status: 'offline', detail: 'Invalid API key' }
+    if (res.status === 401) return { status: 'offline', detail: 'Invalid API key — check your key in Settings' }
     if (!res.ok) return { status: 'offline', detail: `Server returned ${res.status}` }
     return { status: 'online', detail: 'Connected' }
   } catch (err) {

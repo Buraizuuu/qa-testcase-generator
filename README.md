@@ -1,8 +1,19 @@
-# QA Assist — AI Test Case Generator
+<div align="center">
 
-> Generate production-quality test cases from user stories and acceptance criteria using AI.
+<img src="https://capsule-render.vercel.app/api?type=waving&color=2563EB&height=200&section=header&text=QA%20Assist&fontSize=60&fontColor=ffffff&fontAlignY=38&desc=AI-powered%20Test%20Case%20Generator&descAlignY=58&descColor=93c5fd" alt="QA Assist banner" />
 
-Built by **Bryle Briones** · QA Engineer @ UCG
+[![React](https://img.shields.io/badge/React-18-61DAFB?style=flat-square&logo=react&logoColor=white)](https://react.dev)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?style=flat-square&logo=typescript&logoColor=white)](https://www.typescriptlang.org)
+[![Vite](https://img.shields.io/badge/Vite-6-646CFF?style=flat-square&logo=vite&logoColor=white)](https://vite.dev)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind-3-06B6D4?style=flat-square&logo=tailwindcss&logoColor=white)](https://tailwindcss.com)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green?style=flat-square)](LICENSE)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen?style=flat-square)](https://github.com/Buraizuuu/qa-testcase-generator/pulls)
+
+**Generate production-quality test cases from user stories and acceptance criteria using AI.**
+
+Built by [**Bryle Briones**](https://bryle-briones.vercel.app/)
+
+</div>
 
 ---
 
