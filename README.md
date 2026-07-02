@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAzMiAzMiI+CiAgPHJlY3Qgd2lkdGg9IjMyIiBoZWlnaHQ9IjMyIiByeD0iOCIgZmlsbD0iIzI1NjNFQiIvPgogIDxwYXRoIGQ9Ik0xMCAxNi41TDE0IDIwLjVMMjIgMTIiIHN0cm9rZT0id2hpdGUiIHN0cm9rZS13aWR0aD0iMi41IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIGZpbGw9Im5vbmUiLz4KPC9zdmc+" width="72" height="72" alt="QA Assist logo" />
+<img src="https://raw.githubusercontent.com/Buraizuuu/qa-testcase-generator/master/public/favicon.svg" width="72" height="72" alt="QA Assist logo" />
 
 # QA Assist
 
