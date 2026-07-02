@@ -34,6 +34,12 @@ SECURITY: Authentication, authorization, privilege escalation, session timeout, 
 ACCESSIBILITY: Keyboard navigation, screen reader compatibility, focus order, color contrast awareness, ARIA behavior.
 PERFORMANCE: Large datasets, multiple concurrent users, long running operations, timeout behavior, loading indicators.
 
+MANDATORY FIELD-LEVEL VALIDATION COVERAGE: If the feature involves one or more input fields (forms, login, search, registration, etc.), you MUST generate a dedicated negative test case for each of the following, even if the requirement text does not explicitly ask for it, and REGARDLESS of which Testing Scope categories are enabled — required-field validation is core negative/functional testing, not an optional extra:
+- Each required field submitted blank/empty, individually
+- All required fields submitted blank/empty at the same time
+- Minimum/maximum length violations for text fields (only when Boundary scope is enabled)
+Infer the field list from the feature name and requirements (e.g. a login feature has "username/email" and "password" fields). Do not skip this coverage for the sake of brevity.
+
 # Test Case Quality Standards
 
 Each test case must: contain one primary validation objective, be independent, avoid duplicate coverage, be easy to execute manually, be automation friendly, contain realistic test data, contain clear expected results, avoid vague wording.
