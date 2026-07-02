@@ -150,22 +150,22 @@ export default function ExportMenu({ result, featureName }: Props) {
         onClick={() => setOpen(!open)}
         className={`
           flex items-center gap-2 px-3.5 py-2 min-h-[44px]
-          text-sm font-medium rounded-lg border transition-all
+          text-sm font-semibold rounded-lg border transition-all shadow-sm
           ${open
-            ? 'bg-slate-700 border-slate-600 text-slate-100 shadow-lg'
-            : 'bg-slate-800 border-slate-700 text-slate-300 hover:bg-slate-700 hover:border-slate-600 hover:text-slate-100'
+            ? 'bg-emerald-500 border-emerald-400 text-white shadow-lg'
+            : 'bg-emerald-600 border-emerald-500 text-white hover:bg-emerald-500 hover:border-emerald-400'
           }
         `}
         aria-haspopup="true"
         aria-expanded={open}
         aria-label="Export test cases"
       >
-        <svg className="w-4 h-4 text-slate-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+        <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
           <path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3" />
         </svg>
         <span>Export</span>
         <svg
-          className={`w-3.5 h-3.5 text-slate-500 transition-transform duration-200 ${open ? 'rotate-180' : ''}`}
+          className={`w-3.5 h-3.5 text-emerald-100 transition-transform duration-200 ${open ? 'rotate-180' : ''}`}
           viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"
           aria-hidden="true"
         >

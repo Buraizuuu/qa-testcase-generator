@@ -61,6 +61,15 @@ export default function App() {
     setStreamText('')
   }
 
+  function handleClear() {
+    abortRef.current?.abort()
+    setOpts(DEFAULT_OPTS)
+    setResult(null)
+    setStreamText('')
+    setIsGenerating(false)
+    setError(null)
+  }
+
   return (
     <div className="flex flex-col h-screen bg-slate-950 overflow-hidden">
       <Header />
@@ -78,6 +87,7 @@ export default function App() {
             opts={opts}
             onChange={setOpts}
             onGenerate={handleGenerate}
+            onClear={handleClear}
             isGenerating={isGenerating}
           />
         </aside>

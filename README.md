@@ -59,6 +59,8 @@ QA Assist takes your feature requirements and generates comprehensive test cases
 **Testing techniques applied automatically:**
 Boundary Value Analysis · Equivalence Partitioning · Decision Table Testing · State Transition · Error Guessing · Risk-Based Testing · Positive & Negative Testing
 
+Use **Clear** to reset the form and discard generated results — a confirmation prompt prevents accidental data loss.
+
 ---
 
 ## Quick start

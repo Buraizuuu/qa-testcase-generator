@@ -1,9 +1,12 @@
+import { useState } from 'react'
 import type { GenerateOptions, AppType } from '../lib/types'
+import ConfirmDialog from './ConfirmDialog'
 
 interface Props {
   opts: GenerateOptions
   onChange: (opts: GenerateOptions) => void
   onGenerate: () => void
+  onClear: () => void
   isGenerating: boolean
 }
 
@@ -26,7 +29,9 @@ const SCOPE_LABELS: Record<keyof GenerateOptions['scope'], string> = {
   boundary: 'Boundary',
 }
 
-export default function InputPanel({ opts, onChange, onGenerate, isGenerating }: Props) {
+export default function InputPanel({ opts, onChange, onGenerate, onClear, isGenerating }: Props) {
+  const [confirmClearOpen, setConfirmClearOpen] = useState(false)
+
   function update<K extends keyof GenerateOptions>(key: K, value: GenerateOptions[K]) {
     onChange({ ...opts, [key]: value })
   }
@@ -138,31 +143,48 @@ export default function InputPanel({ opts, onChange, onGenerate, isGenerating }:
           />
         </div>
 
-        {/* Generate button */}
-        <button
-          onClick={onGenerate}
-          disabled={!canGenerate || isGenerating}
-          className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-blue-600 hover:bg-blue-500 disabled:opacity-50 disabled:cursor-not-allowed text-white text-sm font-semibold rounded-lg transition-colors min-h-[44px]"
-          aria-busy={isGenerating}
-        >
-          {isGenerating ? (
-            <>
-              <svg className="w-4 h-4 animate-spin" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
-              </svg>
-              Generating...
-            </>
-          ) : (
-            <>
-              <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09z" />
-              </svg>
-              Generate Test Cases
-            </>
-          )}
-        </button>
+        {/* Generate / Clear buttons */}
+        <div className="flex gap-2">
+          <button
+            onClick={onGenerate}
+            disabled={!canGenerate || isGenerating}
+            className="flex-1 flex items-center justify-center gap-2 px-4 py-3 bg-blue-600 hover:bg-blue-500 disabled:opacity-50 disabled:cursor-not-allowed text-white text-sm font-semibold rounded-lg transition-colors min-h-[44px]"
+            aria-busy={isGenerating}
+          >
+            {isGenerating ? (
+              <>
+                <svg className="w-4 h-4 animate-spin" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+                </svg>
+                Generating...
+              </>
+            ) : (
+              <>
+                <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09z" />
+                </svg>
+                Generate Test Cases
+              </>
+            )}
+          </button>
+          <button
+            onClick={() => setConfirmClearOpen(true)}
+            className="px-4 py-3 text-sm font-semibold text-slate-400 hover:text-slate-200 border border-slate-700 hover:border-slate-600 rounded-lg transition-colors min-h-[44px]"
+          >
+            Clear
+          </button>
+        </div>
       </div>
+
+      <ConfirmDialog
+        open={confirmClearOpen}
+        title="Clear all fields?"
+        message="This will reset the form and discard any generated test cases. This can't be undone."
+        confirmLabel="Clear"
+        onConfirm={() => { setConfirmClearOpen(false); onClear() }}
+        onCancel={() => setConfirmClearOpen(false)}
+      />
     </div>
   )
 }
